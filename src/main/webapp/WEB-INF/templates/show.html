@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+
+    <style>
+        table, td {
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="${Hello}">H1 test</h1>
+
+
+    <table >
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>price</td>
+            <td>Link</td>
+        </tr>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td><a th:href="@{product/{id}(id=${product.id})}">Product</a></td>
+        </tr>
+
+    </table>
+
+<a th:href="@{product/new}">Add product</a>
+
+</body>
+</html>
