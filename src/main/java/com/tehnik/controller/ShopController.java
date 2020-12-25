@@ -1,50 +1,50 @@
 package com.tehnik.controller;
 
-import com.tehnik.dao.ProductDAO;
 import com.tehnik.model.Product;
+import com.tehnik.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
 @Controller
 public class ShopController {
 
-    public final ProductDAO productDAO;
+    private final ProductService productService;
 
-    public ShopController(ProductDAO productDAO) {
-        this.productDAO = productDAO;
+    public ShopController(ProductService productService) {
+        this.productService = productService;
     }
 
 
     @GetMapping("")
-    public String show(Model model) throws SQLException, ClassNotFoundException {
+    public String show(@RequestParam(required = false) String message,@RequestParam(required = false) String item, Model model) throws SQLException, ClassNotFoundException {
         model.addAttribute("Hello", "Hello Shop");
-        model.addAttribute("products", productDAO.getAllProducts());
+        model.addAttribute("str", message);
+        model.addAttribute("products", productService.getAll());
         return "show";
     }
 
 
     @GetMapping("/product/{id}")
-    public String getProduct(@PathVariable("id")Long id, Model model) throws SQLException, ClassNotFoundException {
-        model.addAttribute("getProduct", productDAO.getProductById(id));
+    public String getProduct(@PathVariable("id") Long id, Model model) throws SQLException, ClassNotFoundException {
+        model.addAttribute("getProduct", productService.getByID(id));
         return "product";
     }
 
     @GetMapping("/product/new")
-    public String addProduct(Model model){
+    public String addProduct(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("default", "Default value");
         return "addProduct";
     }
 
 
     @PostMapping("/product/done")
     public String postAdd(@ModelAttribute Product product) throws SQLException, ClassNotFoundException {
-        productDAO.save(product);
+        productService.save(product);
         return "redirect:/";
     }
+
 }

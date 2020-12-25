@@ -12,23 +12,26 @@
 </head>
 <body>
 <h1 th:text="${Hello}">H1 test</h1>
+<h3><a th:href=@{http://localhost:8080/(message=${'Hello'})}>Message</a></h3>
 
+<div th:if="${str != null}">
+    <h4 th:text="${str}"></h4>
+</div>
+<table>
+    <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>price</td>
+        <td>Link</td>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td><a th:href="@{product/{id}(id=${product.id})}">Product</a></td>
+    </tr>
 
-    <table >
-        <tr>
-            <td>id</td>
-            <td>name</td>
-            <td>price</td>
-            <td>Link</td>
-        </tr>
-        <tr th:each="product : ${products}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.name}"></td>
-            <td th:text="${product.price}"></td>
-            <td><a th:href="@{product/{id}(id=${product.id})}">Product</a></td>
-        </tr>
-
-    </table>
+</table>
 
 <a th:href="@{product/new}">Add product</a>
 

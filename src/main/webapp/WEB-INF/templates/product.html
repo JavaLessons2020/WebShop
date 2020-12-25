@@ -6,9 +6,27 @@
 </head>
 <body>
 <div>
+    Id:
     <p th:text="${getProduct.id}"></p>
+    Name:
     <p th:text="${getProduct.name}"></p>
+    Price actual:
     <p th:text="${getProduct.price}"></p>
+    Price:
+    <p th:if="${getProduct.price > 100000}">
+        <span>100000</span>
+    </p>
+    <p th:unless="${getProduct.price > 100000}">
+        <span>1000</span>
+    </p>
+
+    <p>
+        Switch:
+    <p th:switch="${getProduct.name}">
+        <span th:case="Feature">Ok</span>
+        <span th:case="feature">Error</span>
+    </p>
+    </p>
 </div>
 </body>
 </html>
