@@ -1,10 +1,23 @@
 package com.tehnik.model;
 
+import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.*;
+
+@Component
 public class Product {
     Long id;
-    String name;
-    String description;
-    int price;
+
+    @NotNull
+    @Size(min = 5, max = 20)
+    private String name;
+
+    @Min(18)
+    //@Size(min = 5, max = 20)
+    private String description;
+
+    //@Digits(integer = 3, fraction = 0)
+    private int price;
 
     public Product() {
     }

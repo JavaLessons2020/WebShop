@@ -2,10 +2,13 @@ package com.tehnik.controller;
 
 import com.tehnik.model.Product;
 import com.tehnik.service.ProductService;
+import com.tehnik.validator.ProductValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 
 @Controller
@@ -13,13 +16,16 @@ public class ShopController {
 
     private final ProductService productService;
 
-    public ShopController(ProductService productService) {
+    private final ProductValidator validator;
+
+    public ShopController(ProductService productService, ProductValidator validator) {
         this.productService = productService;
+        this.validator = validator;
     }
 
 
     @GetMapping("")
-    public String show(@RequestParam(required = false) String message,@RequestParam(required = false) String item, Model model) throws SQLException, ClassNotFoundException {
+    public String show(@RequestParam(required = false) String message, @RequestParam(required = false) String item, Model model) throws SQLException, ClassNotFoundException {
         model.addAttribute("Hello", "Hello Shop");
         model.addAttribute("str", message);
         model.addAttribute("products", productService.getAll());
@@ -42,7 +48,13 @@ public class ShopController {
 
 
     @PostMapping("/product/done")
-    public String postAdd(@ModelAttribute Product product) throws SQLException, ClassNotFoundException {
+    public String postAdd(@ModelAttribute @Valid Product product, BindingResult result) throws SQLException, ClassNotFoundException {
+        validator.validate(product, result);
+        if (result.hasErrors()) {
+            System.out.println("Error");
+            return "addProduct";
+        }
+        System.out.println(product);
         productService.save(product);
         return "redirect:/";
     }

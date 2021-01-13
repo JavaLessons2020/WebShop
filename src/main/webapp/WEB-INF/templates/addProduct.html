@@ -2,13 +2,25 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Product</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <form action="#" th:action="@{/product/done}" th:object="${product}" method="post" >
-    <p>Name: <input type="text" th:field="*{name}"/></p>
+
+    <p>Name: <input type="text"  th:field="*{name}"/></p>
+    <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name</p>
+
     <p>Description: <input type="text" th:field="*{description}"/></p>
+    <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description</p>
+
     <p>Price: <input type="number" th:field="*{price}"/></p>
+    <p class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price</p>
+
     <p><input type="submit" value="Submit"/>
         <input type="reset" value="Reset"/></p>
 </form>

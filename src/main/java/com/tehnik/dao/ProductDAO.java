@@ -15,6 +15,7 @@ import java.util.List;
 public class ProductDAO {
 
     private static final String GETBYID = "select * from product where id=?";
+    private static final String GETBYNAME = "select * from product where name=?";
     private static final String GETALL = "select * from product";
     private static final String INCERT = "insert into product(`name`,`description`, `price`) value (?,?,?);";
 
@@ -57,5 +58,19 @@ public class ProductDAO {
         preparedStatement.setInt(3, product.getPrice());
         preparedStatement.executeUpdate();
         preparedStatement.close();
+    }
+
+    public Product getProductByName(String name) throws SQLException, ClassNotFoundException {
+        PreparedStatement preparedStatement = ConnectionJDBC.getConnection(GETBYNAME);
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Product product = new Product();
+        while (resultSet.next()) {
+            product.setName(resultSet.getString("name"));
+            product.setDescription(resultSet.getString("description"));
+            product.setPrice(resultSet.getInt("price"));
+            System.out.println(product);
+        }
+        return product;
     }
 }
