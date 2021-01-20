@@ -26,8 +26,8 @@ public class Product {
 
     @ManyToMany
     @JoinTable(name = "user_product",
-            joinColumns = @JoinColumn(name = "id_user"),
-            inverseJoinColumns = @JoinColumn(name = "id_product"))
+            joinColumns = @JoinColumn(name = "id_product"),
+            inverseJoinColumns = @JoinColumn(name = "id_user"))
     Set<User> users = new HashSet<>();
 
     public Product() {
