@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.validation.Valid;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @Controller
 public class ShopController {
@@ -29,6 +31,7 @@ public class ShopController {
         model.addAttribute("Hello", "Hello Shop");
         model.addAttribute("str", message);
         model.addAttribute("products", productService.getAll());
+
         return "show";
     }
 
@@ -36,6 +39,8 @@ public class ShopController {
     @GetMapping("/product/{id}")
     public String getProduct(@PathVariable("id") Long id, Model model) throws SQLException, ClassNotFoundException {
         model.addAttribute("getProduct", productService.getByID(id));
+        Product byID = productService.getByID(id);
+        System.out.println(byID);
         return "product";
     }
 
@@ -54,7 +59,7 @@ public class ShopController {
             System.out.println("Error");
             return "addProduct";
         }
-        System.out.println(product);
+        //System.out.println(product);
         productService.save(product);
         return "redirect:/";
     }

@@ -1,23 +1,34 @@
 package com.tehnik.model;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.validation.constraints.*;
 
-@Component
+@Entity
+@Table(name = "product")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @NotNull
     @Size(min = 5, max = 20)
     private String name;
 
-    @Min(18)
-    //@Size(min = 5, max = 20)
+    //@Min(18)
     private String description;
 
-    //@Digits(integer = 3, fraction = 0)
     private int price;
+
+    @ManyToMany
+    @JoinTable(name = "user_product",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_product"))
+    Set<User> users = new HashSet<>();
 
     public Product() {
     }
@@ -69,6 +80,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ", users=" + users +
                 '}';
     }
 }

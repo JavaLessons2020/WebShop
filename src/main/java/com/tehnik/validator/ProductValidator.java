@@ -1,13 +1,10 @@
 package com.tehnik.validator;
 
-import com.tehnik.dao.ProductDAO;
+import com.tehnik.dao.jdbc.ProductDAO;
 import com.tehnik.model.Product;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import java.sql.SQLException;
 
 
 @Component
@@ -28,19 +25,18 @@ public class ProductValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Product product = (Product)target;
         try {
-            if(productDAO.getProductByName(product.getName()) != null){
-                errors.rejectValue("name", "", "Product with a takin name already exists");
-            }
-            if(product.getName().isEmpty()){
-                errors.rejectValue("name", "", "This field is empty");
-            }
-            if(product.getDescription().length()<5 || product.getDescription().length() > 20){
-                errors.rejectValue("description", "", "Field must be between 5 and 20 characters");
-            }
+//            if(productDAO.getProductByName(product.getName()) != null){
+//                errors.rejectValue("name", "", "Product with a takin name already exists");
+//            }
+//            if(product.getName().isEmpty()){
+//                errors.rejectValue("name", "", "This field is empty");
+//            }
+//            if(product.getDescription().length()<5 || product.getDescription().length() > 20){
+//                errors.rejectValue("description", "", "Field must be between 5 and 20 characters");
+//            }
 
-
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
